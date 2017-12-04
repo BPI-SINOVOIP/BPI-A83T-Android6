@@ -61,13 +61,6 @@ size = 16384
     downloadfile = "system.fex"
     user_type    = 0x8000
 
-;------------------------------>mmcblk0p8/nande
-[partition]
-    name         = verity_block
-    size         = 65536
-    downloadfile = "verity_block.fex"
-    user_type    = 0x8000
-
 ;------------------------------>mmcblk0p9/nandf
 ;[partition]
 ;    name         = data

@@ -40,8 +40,10 @@ on fs
     ### gpu
     insmod /system/vendor/modules/pvrsrvkm.ko
 
+    #Justin 20171204 Porting Start
     ### tp & sensors
-    init_dev_detect
+    #init_dev_detect
+    #Justin 20171204 Porting End
 
     ### csi module
     insmod /system/vendor/modules/videobuf-core.ko
