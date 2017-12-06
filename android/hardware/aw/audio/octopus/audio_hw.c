@@ -1205,7 +1205,10 @@ static int start_output_stream(struct sunxi_stream_out *out)
 	adev->out_device = device;
 	#endif
 
-	if (1 == check_hdmi_status())
+        //Justin Porting 20171206 for HDMI Start 
+	//if (1 == check_hdmi_status())
+        if ((1 == check_hdmi_status())&&(0==sysopen_music()))
+        //Justin Porting 20171206 for HDMI End
 	{
 	    int device = adev->out_device;
 		device = AUDIO_DEVICE_OUT_AUX_DIGITAL;

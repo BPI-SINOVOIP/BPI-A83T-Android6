@@ -19,7 +19,9 @@
     <!-- Whether to show a seletor item for screen off never timeout -->
     <bool name="config_show_screen_off_never_timeout">true</bool>
 	<!-- show hdmi settings mode 0~7. -->
-    <integer name="config_hdmi_settings_mode" translatable="false">0</integer>
+    <!-- Justin Porting 20171206 Start-->
+    <integer name="config_hdmi_settings_mode" translatable="false">7</integer>
+    <!-- Justin Porting 20171206 End
     <!-- Whether to show charging sounds setting -->
     <bool name="has_charging_sounds_settings" translatable="false">false</bool>
 

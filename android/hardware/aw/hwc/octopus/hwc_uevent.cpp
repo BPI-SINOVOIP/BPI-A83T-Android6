@@ -166,7 +166,10 @@ disp_tv_mode get_suitable_hdmi_mode(int select, disp_tv_mode lastmode)
     while(i > 0)
     {
         i--;
-        if(g_tv_para[i].mode == DISP_TV_MOD_1080P_60HZ)
+		//Justin Porting 20171206 for HDMI Start
+        //if(g_tv_para[i].mode == DISP_TV_MOD_1080P_60HZ)
+		if(g_tv_para[i].mode == DISP_TV_MOD_720P_60HZ)
+		//Justin Porting 20171206 for HDMI End
         {
             j = i;
         }
@@ -187,12 +190,18 @@ disp_tv_mode get_suitable_hdmi_mode(int select, disp_tv_mode lastmode)
 	            g_tv_para[i].support &= ~(1<<select);
 	        }
         }
+		//Justin Porting 20171206 for HDMI Start
+        return DISP_TV_MOD_720P_60HZ;
+		//Justin Porting 20171206 for HDMI End
     }
     if(theMostMode != DISP_TV_MODE_NUM)
     {
         return theMostMode;
     }else{
-        return DISP_TV_MOD_1080P_60HZ;
+	    //Justin Porting 20171206 for HDMI Start
+        //return DISP_TV_MOD_1080P_60HZ;
+		return DISP_TV_MOD_720P_60HZ;
+		//Justin Porting 20171206 for HDMI End
     }
 }
 

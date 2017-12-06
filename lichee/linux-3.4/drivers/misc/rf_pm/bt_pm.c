@@ -31,6 +31,7 @@ static int rfkill_set_power(void *data, bool blocked)
     case 7:  /* ap6476 */ 
     case 8:  /* ap6330 */
     case 9:  /* gb9663 */
+    case 10:  /* ap6212 */
       if (!blocked) {
         if(bt_rst_n != -1) 
           gpio_set_value(bt_rst_n, 1);

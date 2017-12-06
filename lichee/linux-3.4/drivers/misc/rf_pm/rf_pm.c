@@ -33,6 +33,7 @@ char *module_list[] = {
 	"ap6476",       
 	"ap6330",      
 	"gb9663",
+	"ap6212",
 };
 
 #define rf_pm_msg(...)    do {printk("[rf_pm]: "__VA_ARGS__);} while(0)
@@ -345,6 +346,7 @@ static int rf_pm_probe(struct platform_device *pdev)
     case 7:   /* ap6476 */
     case 8:   /* ap6330 */
     case 9:   /* gb9663 */
+    case 10:   /* ap6212 */
     	rf_module_power(1);
       break;
 

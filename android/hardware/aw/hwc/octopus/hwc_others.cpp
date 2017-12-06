@@ -129,7 +129,10 @@ int _hwc_device_set_enhancemode(int disp, bool on_off, bool half)
 int _hwc_device_set_output_mode(int disp, int out_type, int out_mode)
 {
     SUNXI_hwcdev_context_t *Globctx = &gSunxiHwcDevice;
-    DisplayInfo   *PsDisplayInfo = &Globctx->SunxiDisplay[disp];
+	//Justin Porting 20171206 for HDMI Start
+    //DisplayInfo   *PsDisplayInfo = &Globctx->SunxiDisplay[disp];
+	DisplayInfo   *PsDisplayInfo = &Globctx->SunxiDisplay[0];
+	//Justin Porting 20171206 for HDMI End
     int disp_t;
 
     HWC_UNREFERENCED_PARAMETER(out_type);

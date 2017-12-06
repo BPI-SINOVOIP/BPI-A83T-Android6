@@ -38,6 +38,7 @@ void wifi_pm_power(int on)
     case 7:   /* ap6476 */
     case 8:   /* ap6330 */
     case 9:   /* gb9663*/
+    case 10:   /* ap6212*/
     	if (wl_info.wl_reg_on != -1)
     	  gpio_set_value(wl_info.wl_reg_on, on_off);
       break;

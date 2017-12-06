@@ -90,11 +90,13 @@ PRODUCT_PROPERTY_OVERRIDES += \
    ro.frp.pst=/dev/block/by-name/frp
 
 # usb
+#Justin 20171206 Porting Start
 PRODUCT_PROPERTY_OVERRIDES += \
-    persist.sys.usb.config=mtp \
-    ro.adb.secure=1 \
+    persist.sys.usb.config=mtp,adb\
+    ro.adb.secure=0 \
     ro.sys.mutedrm=true \
     rw.logger=0
+#Justin 20171206 Porting End
 
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.product.firmware=v6.0rc4
@@ -108,20 +110,25 @@ PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.heapmaxfree=8m \
     ro.zygote.disable_gl_preload=true
 
+#Justin 20171206 Porting Start
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.property.tabletUI=false \
-    ro.sf.lcd_density=320 \
+    ro.sf.lcd_density=120 \
+#Justin 20171206 Porting End
 
 # function
+# Justin Porting 20171206 Start 
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.sys.bootfast=false \
-    ro.dmic.used=true
+    ro.sys.bootfast=true \
+    ro.dmic.used=false
+# Justin Porting 20171206 End
 
+# Justin Porting 20171206 Start 
 PRODUCT_PROPERTY_OVERRIDES += \
-    persist.sys.timezone=Asia/Shanghai \
-    persist.sys.country=CN \
-    persist.sys.language=zh
-
+   	persist.sys.timezone=Asia/Taipei \
+	persist.sys.language=EN \
+	persist.sys.country=US
+# Justin Porting 20171206 End
 PRODUCT_AAPT_CONFIG := large xlarge hdpi xhdpi
 PRODUCT_AAPT_PERF_CONFIG := xhdpi
 PRODUCT_CHARACTERISTICS := tablet
@@ -135,5 +142,5 @@ $(call inherit-product-if-exists, vendor/google/products/gms_base.mk)
 PRODUCT_BRAND := Allwinner
 PRODUCT_NAME := octopus_f1
 PRODUCT_DEVICE := octopus-f1
-PRODUCT_MODEL := Octopus A83 F1
+PRODUCT_MODEL :=  BPI-M3
 PRODUCT_MANUFACTURER := Allwinner
