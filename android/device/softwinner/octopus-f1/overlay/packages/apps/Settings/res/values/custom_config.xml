@@ -21,7 +21,7 @@
 	<!-- show hdmi settings mode 0~7. -->
     <!-- Justin Porting 20171206 Start-->
     <integer name="config_hdmi_settings_mode" translatable="false">7</integer>
-    <!-- Justin Porting 20171206 End
+    <!-- Justin Porting 20171206 End-->
     <!-- Whether to show charging sounds setting -->
     <bool name="has_charging_sounds_settings" translatable="false">false</bool>
 
