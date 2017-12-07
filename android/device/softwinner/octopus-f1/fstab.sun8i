@@ -10,9 +10,9 @@
 /dev/block/by-name/frp                  /persistent  emmc    defaults                                                                                  defaults
 /devices/platform/sunxi-mmc.0/mmc_host/mmc*     auto         auto         defaults                                                                     voldmanaged=extsd:auto
 /devices/platform/sunxi-mmc.1/mmc_host/mmc*     auto         auto         defaults                                                                     voldmanaged=extsd:auto
-/devices/platform/sunxi-ehci.1                  auto         auto         defaults                                                                     voldmanaged=usb:auto
-/devices/platform/sunxi-ehci.3                  auto         auto         defaults                                                                     voldmanaged=usb:auto
+/devices/platform/sunxi-ehci.1/usb*             auto         auto         defaults                                                                     voldmanaged=usb:auto
+/devices/platform/sunxi-ehci.3/usb*             auto         auto         defaults                                                                     voldmanaged=usb:auto
 /devices/platform/sunxi_hcd_host0/usb*          auto         auto         defaults                                                                     voldmanaged=usb:auto
-/devices/platform/sunxi-ohci.1                  auto         auto         defaults                                                                     voldmanaged=usb:auto
-/devices/platform/sunxi-ohci.3                  auto         auto         defaults                                                                     voldmanaged=usb:auto
+/devices/platform/sunxi-ohci.1/usb*             auto         auto         defaults                                                                     voldmanaged=usb:auto
+/devices/platform/sunxi-ohci.3/usb*             auto         auto         defaults                                                                     voldmanaged=usb:auto
 /dev/block/zram0                        none         swap    defaults                                                                                  zramsize=134217728
