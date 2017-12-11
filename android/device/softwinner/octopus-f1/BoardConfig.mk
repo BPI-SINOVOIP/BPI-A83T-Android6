@@ -55,7 +55,7 @@ ifeq ($(BOARD_WIFI_VENDOR), broadcom)
     BOARD_WLAN_DEVICE           := bcmdhd
     WIFI_DRIVER_FW_PATH_PARAM   := "/sys/module/bcmdhd/parameters/firmware_path"
 
-    BOARD_USR_WIFI := gb9663
+    BOARD_USR_WIFI := ap6212
     include hardware/broadcom/wlan/bcmdhd/firmware/$(BOARD_USR_WIFI)/device-bcm.mk
 
 endif
@@ -82,7 +82,7 @@ SW_BOARD_USES_SENSORS_TYPE := lsm9ds0
 # BOARD_HAVE_BLUETOOTH_NAME:rtl8723bs/rtl8723bs_vq0/rtl8723cs/ap6210/ap6212/ap6330/ap6335/
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_BCM := true
-BOARD_HAVE_BLUETOOTH_NAME := gb9663
+BOARD_HAVE_BLUETOOTH_NAME := ap6212
 #BOARD_HAVE_BLUETOOTH_RTK := true
 #BOARD_HAVE_BLUETOOTH_NAME := rtl8723bs_vq0
 #BOARD_HAVE_BLUETOOTH_RTK_COEX := true

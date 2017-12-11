@@ -113,7 +113,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 #Justin 20171206 Porting Start
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.property.tabletUI=false \
-    ro.sf.lcd_density=120 \
+    ro.sf.lcd_density=160 \
 #Justin 20171206 Porting End
 
 # function
@@ -143,4 +143,4 @@ PRODUCT_BRAND := Allwinner
 PRODUCT_NAME := octopus_f1
 PRODUCT_DEVICE := octopus-f1
 PRODUCT_MODEL :=  BPI-M3
-PRODUCT_MANUFACTURER := Allwinner
+PRODUCT_MANUFACTURER := SINOVOIP

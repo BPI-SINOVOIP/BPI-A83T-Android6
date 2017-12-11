@@ -57,17 +57,19 @@ on fs
     insmod /system/vendor/modules/ov8858_4lane.ko
     insmod /system/vendor/modules/vfe_v4l2.ko
     
+#Justin 20171206 Porting Start
     ### network
     insmod /system/vendor/modules/bcmdhd.ko
     insmod /system/vendor/modules/bcm_btlpm.ko
-    insmod /system/vendor/modules/usbnet.ko
-    insmod /system/vendor/modules/asix.ko
-    insmod /system/vendor/modules/qf9700.ko
-    insmod /system/vendor/modules/mcs7830.ko
-    insmod /system/vendor/modules/rtl8150.ko
-    insmod /system/vendor/modules/cdc_ether.ko
-    insmod /system/vendor/modules/smsc75xx.ko
-    insmod /system/vendor/modules/smsc95xx.ko
+    #insmod /system/vendor/modules/usbnet.ko
+    #insmod /system/vendor/modules/asix.ko
+    #insmod /system/vendor/modules/qf9700.ko
+    #insmod /system/vendor/modules/mcs7830.ko
+    #insmod /system/vendor/modules/rtl8150.ko
+    #insmod /system/vendor/modules/cdc_ether.ko
+    #insmod /system/vendor/modules/smsc75xx.ko
+    #insmod /system/vendor/modules/smsc95xx.ko
+#Justin 20171206 Porting End
 
     ### bluetooth
     # UART device
@@ -79,6 +81,15 @@ on fs
     chmod 0660 /sys/class/rfkill/rfkill0/type
     chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/state
     chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/type
+
+    #Justin 20171206 Porting Start
+    # bluetooth MAC address programming
+    chown bluetooth net_bt_stack ro.bt.bdaddr_path
+    chown bluetooth net_bt_stack /system/etc/bluetooth
+    chown bluetooth net_bt_stack /data/misc/bluetooth
+    setprop ro.bt.bdaddr_path "/data/misc/bluetooth/bdaddr"
+    #Justin 20171206 Porting End
+
 
     # bluetooth LPM
     chmod 0220 /proc/bluetooth/sleep/lpm
@@ -114,11 +125,6 @@ on post-fs-data
 	mkdir /data/system/gps 775 gps system
     chown gps system /data/system/gps
 
-    # bluetooth MAC address programming
-    chown bluetooth net_bt_stack ro.bt.bdaddr_path
-    chown bluetooth net_bt_stack /system/etc/bluetooth
-    chown bluetooth net_bt_stack /data/misc/bluetooth
-    setprop ro.bt.bdaddr_path "/data/misc/bluetooth/bdaddr"
 
     # private partition for permanent macaddr，disable by default
     #format_userdata /dev/block/by-name/private PRIVATE
