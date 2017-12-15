@@ -8,3 +8,5 @@ allow init log_block_device:blk_file rw_file_perms;
 allow init misc_block_device:blk_file rw_file_perms;
 allow init vfat:dir { search mounton write add_name setattr };
 allow init socket_device:sock_file { create setattr unlink};
+allow init proc_bluetooth_writable:file write;
+allow init vfat:dir { write };

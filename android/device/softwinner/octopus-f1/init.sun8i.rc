@@ -45,6 +45,41 @@ on fs
     #init_dev_detect
     #Justin 20171204 Porting End
 
+    #Justin 20171206 Porting Start
+        chmod 777 /sys/bus/platform/devices/reg-81x-cs-gpio0ldo/max_microvolts
+        chmod 777 /sys/bus/platform/devices/reg-81x-cs-gpio1ldo/max_microvolts
+        chmod 777 /sys/class/gpio_sw/PH5/data
+	chmod 777 /sys/class/gpio_sw/PH4/data
+	chmod 777 /sys/class/gpio_sw/PL10/data
+	chmod 777 /sys/class/gpio_sw/PC4/data
+	chmod 777 /sys/class/gpio_sw/PC7/data
+	chmod 777 /sys/class/gpio_sw/PC17/data
+	chmod 777 /sys/class/gpio_sw/PC0/data
+	chmod 777 /sys/class/gpio_sw/PC1/data
+	chmod 777 /sys/class/gpio_sw/PC2/data
+	chmod 777 /sys/class/gpio_sw/PH3/data
+	chmod 777 /sys/class/gpio_sw/PC18/data
+	chmod 777 /sys/class/gpio_sw/PG10/data
+	chmod 777 /sys/class/gpio_sw/PG11/data
+	chmod 777 /sys/class/gpio_sw/PG12/data
+	chmod 777 /sys/class/gpio_sw/PE4/data
+	chmod 777 /sys/class/gpio_sw/PB0/data
+	chmod 777 /sys/class/gpio_sw/PB1/data
+	chmod 777 /sys/class/gpio_sw/PB3/data
+	chmod 777 /sys/class/gpio_sw/PB2/data
+	chmod 777 /sys/class/gpio_sw/PL8/data
+	chmod 777 /sys/class/gpio_sw/PL9/data
+	chmod 777 /sys/class/gpio_sw/PC3/data
+	chmod 777 /sys/class/gpio_sw/PH10/data
+	chmod 777 /sys/class/gpio_sw/PH2/data
+	chmod 777 /sys/class/gpio_sw/PG13/data
+	chmod 777 /sys/class/gpio_sw/PE5/data
+	chmod 777 /sys/class/gpio_sw/PE18/data
+	chmod 777 /sys/class/gpio_sw/PE19/data
+     #Justin 20171206 Porting Start
+
+
+
     #Justin 20171214 Porting Start
     ### csi module
     insmod /system/vendor/modules/videobuf-core.ko
@@ -115,6 +150,11 @@ on fs
 on property:sys.boot_completed=1
     #start engsetmacaddr
     #start engsetbtmacaddr
+
+   #Justin 20171215 Porting for BPI-M3 Start
+     setenforce 0
+   #Justin 20171215 Porting for BPI-M23 End
+
 
 on post-fs-data
     mkdir /data/media 0770 media_rw media_rw
