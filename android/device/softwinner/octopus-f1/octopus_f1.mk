@@ -73,16 +73,18 @@ $(call inherit-product, device/softwinner/common/rild/radio_common.mk)
 #$(call inherit-product, device/softwinner/common/ril_modem/huawei/mu509/huawei_mu509.mk)
 #$(call inherit-product, device/softwinner/common/ril_modem/Oviphone/em55/oviphone_em55.mk)
 
+# Justin Porting 20171214 Start  
 # camera config for isp
 PRODUCT_COPY_FILES += \
-    device/softwinner/octopus-common/hawkview/8M/ov8858_4lane/isp_3a_param.ini:system/etc/hawkview/ov8858_4lane/isp_3a_param.ini \
-    device/softwinner/octopus-common/hawkview/8M/ov8858_4lane/isp_iso_param.ini:system/etc/hawkview/ov8858_4lane/isp_iso_param.ini \
-    device/softwinner/octopus-common/hawkview/8M/ov8858_4lane/isp_test_param.ini:system/etc/hawkview/ov8858_4lane/isp_test_param.ini \
-    device/softwinner/octopus-common/hawkview/8M/ov8858_4lane/isp_tuning_param.ini:system/etc/hawkview/ov8858_4lane/isp_tuning_param.ini \
-    device/softwinner/octopus-common/hawkview/8M/ov8858_4lane/bin/gamma_tbl.bin:system/etc/hawkview/ov8858_4lane/bin/gamma_tbl.bin \
-    device/softwinner/octopus-common/hawkview/8M/ov8858_4lane/bin/hdr_tbl.bin:system/etc/hawkview/ov8858_4lane/bin/hdr_tbl.bin \
-    device/softwinner/octopus-common/hawkview/8M/ov8858_4lane/bin/lsc_tbl.bin:system/etc/hawkview/ov8858_4lane/bin/lsc_tbl.bin
+    device/softwinner/octopus-common/hawkview/8M/ov8865_4lane/isp_3a_param.ini:system/etc/hawkview/ov8865_4lane/isp_3a_param.ini \
+   device/softwinner/octopus-common/hawkview/8M/ov8865_4lane/isp_iso_param.ini:system/etc/hawkview/ov8865_4lane/isp_iso_param.ini \
+    device/softwinner/octopus-common/hawkview/8M/ov8865_4lane/isp_test_param.ini:system/etc/hawkview/ov8865_4lane/isp_test_param.ini \
+   device/softwinner/octopus-common/hawkview/8M/ov8865_4lane/isp_tuning_param.ini:system/etc/hawkview/ov8865_4lane/isp_tuning_param.ini \
+   device/softwinner/octopus-common/hawkview/8M/ov8865_4lane/bin/gamma_tbl.bin:system/etc/hawkview/ov8865_4lane/bin/gamma_tbl.bin \
+   device/softwinner/octopus-common/hawkview/8M/ov8865_4lane/bin/hdr_tbl.bin:system/etc/hawkview/ov8865_4lane/bin/hdr_tbl.bin \
+    device/softwinner/octopus-common/hawkview/8M/ov8865_4lane/bin/lsc_tbl.bin:system/etc/hawkview/ov8865_4lane/bin/lsc_tbl.bin
 
+# Justin Porting 20171214 End
 # gps
 $(call inherit-product, device/softwinner/octopus-f1/gps/gps.mk)
 

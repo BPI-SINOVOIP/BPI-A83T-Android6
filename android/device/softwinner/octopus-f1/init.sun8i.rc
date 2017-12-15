@@ -45,17 +45,18 @@ on fs
     #init_dev_detect
     #Justin 20171204 Porting End
 
+    #Justin 20171214 Porting Start
     ### csi module
     insmod /system/vendor/modules/videobuf-core.ko
     insmod /system/vendor/modules/videobuf-dma-contig.ko
     insmod /system/vendor/modules/cci.ko
     insmod /system/vendor/modules/actuator.ko
+    insmod  /system/vendor/modules/vm149c_act.ko
     insmod /system/vendor/modules/vfe_os.ko
     insmod /system/vendor/modules/vfe_subdev.ko
-    insmod /system/vendor/modules/dw9714_act.ko
-    insmod /system/vendor/modules/hi253.ko
-    insmod /system/vendor/modules/ov8858_4lane.ko
+    insmod /system/vendor/modules/ov8865_4lane.ko
     insmod /system/vendor/modules/vfe_v4l2.ko
+    #Justin 20171214 Porting End
     
 #Justin 20171206 Porting Start
     ### network
