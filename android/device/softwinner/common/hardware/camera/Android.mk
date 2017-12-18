@@ -67,6 +67,37 @@ LOCAL_MODULE_TAGS := optional
 include $(BUILD_PREBUILT)
 endif
 ############################################################################
+#####---BPI---
+ifneq ($(filter bpi%,$(TARGET_BOARD_PLATFORM)),)
+include $(CLEAR_VARS)
+LOCAL_MODULE := libfacedetection
+LOCAL_MODULE_SUFFIX := .so
+LOCAL_MODULE_CLASS := SHARED_LIBRARIES
+LOCAL_SRC_FILES_32 := lib32/facedetection/libfacedetection.so
+LOCAL_SRC_FILES_64 := lib64/facedetection/libfacedetection.so
+LOCAL_MULTILIB:= both
+LOCAL_MODULE_TAGS := optional
+include $(BUILD_PREBUILT)
+include $(CLEAR_VARS)
+LOCAL_MODULE := libSmileEyeBlink
+LOCAL_MODULE_SUFFIX := .so
+LOCAL_MODULE_CLASS := SHARED_LIBRARIES
+LOCAL_SRC_FILES_32 := lib32/facedetection/libSmileEyeBlink.so
+LOCAL_SRC_FILES_64 := lib64/facedetection/libSmileEyeBlink.so
+LOCAL_MULTILIB:= both
+LOCAL_MODULE_TAGS := optional
+include $(BUILD_PREBUILT)
+include $(CLEAR_VARS)
+LOCAL_MODULE := libapperceivepeople
+LOCAL_MODULE_SUFFIX := .so
+LOCAL_MODULE_CLASS := SHARED_LIBRARIES
+LOCAL_SRC_FILES_32 := lib32/facedetection/libapperceivepeople.so
+LOCAL_SRC_FILES_64 := lib64/facedetection/libapperceivepeople.so
+LOCAL_MULTILIB:= both
+LOCAL_MODULE_TAGS := optional
+include $(BUILD_PREBUILT)
+endif
+############################################################################
 
 ############################################################################
 #####---A33---
@@ -258,7 +289,22 @@ LOCAL_SHARED_LIBRARIES += \
 	libSmileEyeBlink \
 	libapperceivepeople
 endif
+############################################################################
+#####---BPI---
+ifneq ($(filter bpi%,$(TARGET_BOARD_PLATFORM)),)
+LOCAL_CFLAGS += -D__A83__
+LOCAL_C_INCLUDES += \
+       frameworks/av/media/liballwinner/LIBRARY/CODEC/VIDEO/ENCODER/include \
+	device/softwinner/common/hardware/camera/libfacedetection \
+	device/softwinner/common/hardware/camera/SceneFactory
 
+LOCAL_SHARED_LIBRARIES += \
+	libMemAdapter    \
+	libvencoder \
+	libfacedetection \
+	libSmileEyeBlink \
+	libapperceivepeople
+endif
 ############################################################################
 #####---A80---
 ifneq ($(filter kylin%,$(TARGET_BOARD_PLATFORM)),)

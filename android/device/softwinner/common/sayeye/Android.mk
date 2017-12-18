@@ -44,6 +44,11 @@ endif
 ifeq ($(TARGET_BOARD_PLATFORM), octopus)
 LOCAL_CFLAGS   += -DSUN8IW6P1
 endif
+########## add BPI product name start ##########
+ifeq ($(TARGET_BOARD_PLATFORM), bpi)
+LOCAL_CFLAGS   += -DSUN8IW6P1
+endif
+########## add BPI product name end ##########
 
 ifeq ($(TARGET_BOARD_PLATFORM), tulip)
 LOCAL_CFLAGS   += -DSUN50IW1P1
@@ -74,6 +79,11 @@ endif
 ifeq ($(TARGET_BOARD_PLATFORM), octopus)
 LOCAL_CFLAGS   += -DSUN8IW6P1
 endif
+########## add BPI product name start ##########
+ifeq ($(TARGET_BOARD_PLATFORM), bpi)
+LOCAL_CFLAGS   += -DSUN8IW6P1
+endif
+########## add BPI product name end ##########
 ifeq ($(TARGET_BOARD_PLATFORM), tulip)
 LOCAL_CFLAGS   += -DSUN50IW1P1
 endif
