@@ -1421,7 +1421,7 @@ i2s_dout0           = port:PB06<3><1><default><default>
 i2s_din             = port:PB07<3><1><default><default>
 
 [ac100_audio0]
-audio_int_ctrl       	= port:PL12<6><default><default><0>
+audio_int_ctrl       	= port:PL11<6><default><default><0>
 audio_pa_ctrl       	= port:PG13<1><default><default><0>
 ;aif3_voltage       = "axp15_cldo3"
 speaker_val = 0x1b
