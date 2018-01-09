@@ -513,7 +513,11 @@ public class AudioService extends IAudioService.Stub {
             = new RemoteCallbackList<IAudioRoutesObserver>();
 
     // Devices for which the volume is fixed and VolumePanel slider should be disabled
-    int mFixedVolumeDevices = AudioSystem.DEVICE_OUT_HDMI |
+
+    //Justin Porting for BPI-M3 HDMI Audio Start
+    //int mFixedVolumeDevices = AudioSystem.DEVICE_OUT_HDMI |
+    int mFixedVolumeDevices = 
+    //Justin Porting for BPI-M3 HDMI Audio End
             AudioSystem.DEVICE_OUT_DGTL_DOCK_HEADSET |
             AudioSystem.DEVICE_OUT_ANLG_DOCK_HEADSET |
             AudioSystem.DEVICE_OUT_HDMI_ARC |

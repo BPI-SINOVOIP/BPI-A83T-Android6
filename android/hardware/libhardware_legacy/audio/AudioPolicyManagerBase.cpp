@@ -3245,7 +3245,10 @@ float AudioPolicyManagerBase::computeVolume(int stream,
     // if volume is not 0 (not muted), force media volume to max on digital output
     if (stream == AudioSystem::MUSIC &&
         index != mStreams[stream].mIndexMin &&
-        (device == AUDIO_DEVICE_OUT_AUX_DIGITAL ||
+        //Justin Porting for BPI-M3 HDMI Audio Start  
+        //(device == AUDIO_DEVICE_OUT_AUX_DIGITAL ||
+         (//device == AUDIO_DEVICE_OUT_AUX_DIGITAL ||
+        //Justin Porting for BPI-M3 HDMI Audio End
          device == AUDIO_DEVICE_OUT_DGTL_DOCK_HEADSET)) {
         return 1.0;
     }
