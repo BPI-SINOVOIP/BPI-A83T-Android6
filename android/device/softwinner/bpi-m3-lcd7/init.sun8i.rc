@@ -46,10 +46,10 @@ on fs
     ### gpu
     insmod /system/vendor/modules/pvrsrvkm.ko
 
-    #Justin 20171204 Porting Start
+    #Justin Porting for LCD 7' auto detect touch Start
     ### tp & sensors
-    #init_dev_detect
-    #Justin 20171204 Porting End
+    init_dev_detect
+    #Justin Porting for LCD 7' auto detect touch End
 
     #Justin 20171206 Porting Start
         chmod 777 /sys/bus/platform/devices/reg-81x-cs-gpio0ldo/max_microvolts

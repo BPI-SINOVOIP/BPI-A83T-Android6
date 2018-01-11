@@ -36,7 +36,9 @@ static struct sw_device_info ctps[] = {
         { "ft5x_ts", 0, {      0x38},   0xa3, {0x3,0x0a,0x55,0x06,0x08,0x02,0xa3}, 0},
         {   "gt82x", 0, {      0x5d},  0xf7d, {0x13,0x27,0x28          }, 0},
         { "gslX680", 0, {      0x40},   0x00, {0x00                    }, 1},
-        {"gslX680new", 0, {    0x40},   0x00, {0x00                    }, 1},
+        //Justin Porting for LCD 7' auto detect touch Start
+        //{"gslX680new", 0, {    0x40},   0x00, {0x00                    }, 1},
+        //Justin Porting for LCD 7' auto detect touch End
         {"gt9xx_ts", 0, {0x14, 0x5d}, 0x8140, {0x39                    }, 0},
 	{"gt9xxnew_ts", 0, {0x14, 0x5d}, 0x8140, {0x39,0x60,0xe0,0x10,                    }, 0},
         {"gt9xxf_ts", 0, { 0x14,0x5d},   0x00, {0x00                    }, 1},
