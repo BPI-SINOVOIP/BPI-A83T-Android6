@@ -7,13 +7,15 @@ extern __lcd_panel_t lt070me05000_panel;
 extern __lcd_panel_t t27p06_panel;
 extern __lcd_panel_t S070WV20_MIPI_RGB_panel;
 extern __lcd_panel_t LHR050H41_MIPI_RGB_panel;
+extern __lcd_panel_t CHR050H129_MIPI_RGB_panel;
 
 __lcd_panel_t* panel_array[] = {
 	&default_panel,
 	&lt070me05000_panel,
 	&t27p06_panel,
 	&S070WV20_MIPI_RGB_panel,
-    &LHR050H41_MIPI_RGB_panel,
+        &LHR050H41_MIPI_RGB_panel,
+        &CHR050H129_MIPI_RGB_panel,
 	/* add new panel below */
 
 	NULL,

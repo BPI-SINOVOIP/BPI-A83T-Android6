@@ -684,7 +684,7 @@ pll_video1      = 297
 [lcd0_para]
 lcd_used            = 1
 
-lcd_driver_name     = "LHR050H41_MIPI_RGB"
+lcd_driver_name     = "CHR050H129_MIPI_RGB"
 lcd_bl_0_percent    = 0
 lcd_bl_40_percent   = 23
 lcd_bl_100_percent  = 100
