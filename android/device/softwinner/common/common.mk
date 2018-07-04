@@ -16,10 +16,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
 endif
 
 # preinstall apk
-PRODUCT_PACKAGES += \
-    DragonFire \
-    DragonPhone \
-    DragonAging \
+#PRODUCT_PACKAGES += \
+#    DragonFire \
+#    DragonPhone \
+#    DragonAging \
 	
 # usb
 PRODUCT_PACKAGES += \
