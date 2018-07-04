@@ -63,7 +63,7 @@ static struct sunxi_mmc_host* sunxi_host[] = {NULL, NULL, NULL, NULL};
 #if defined(CONFIG_ARCH_SUN8IW5P1)
 	#define KEEP_CARD0_POWER_SUPPLY  /*used for sd card hold power when suspend*/
 #endif
-//#define USE_SECURE_WRITE_PROTECT 
+/*#define USE_SECURE_WRITE_PROTECT*/
 
 #ifdef CONFIG_CACULATE_TRANS_TIME
 static unsigned long long begin_time, over_time, end_time;
@@ -476,7 +476,17 @@ s32 sunxi_mci_update_clk(struct sunxi_mmc_host* smc_host)
 	unsigned long expire = jiffies + msecs_to_jiffies(1000); // 1000ms timeout
   	s32 ret = 0;
 
-  	rval = SDXC_Start|SDXC_UPCLKOnly|SDXC_WaitPreOver;
+#if defined(CONFIG_ARCH_SUN8IW5P1) || defined(CONFIG_ARCH_SUN8IW6P1) \
+		|| defined(CONFIG_ARCH_SUN8IW8P1) \
+		|| defined(CONFIG_ARCH_SUN8IW7P1) \
+		|| defined(CONFIG_ARCH_SUN8IW9P1)
+	u32 clk_ctl = mci_readl(smc_host , REG_CLKCR);
+	clk_ctl |= (0x1U<<31);
+	mci_writel(smc_host , REG_CLKCR , clk_ctl);
+	SMC_DBG(smc_host ,  "%d,REG_CLKCR %x\n" , __LINE__ , mci_readl(smc_host , REG_CLKCR));
+#endif
+
+	rval = SDXC_Start|SDXC_UPCLKOnly|SDXC_WaitPreOver;
 	if (smc_host->voltage_switching)
 		rval |= SDXC_VolSwitch;
 	mci_writel(smc_host, REG_CMDR, rval);
@@ -493,6 +503,17 @@ s32 sunxi_mci_update_clk(struct sunxi_mmc_host* smc_host)
 
 	if(!ret)
 		SMC_INFO(smc_host, "update clock ok\n");
+
+#if defined(CONFIG_ARCH_SUN8IW5P1) || defined(CONFIG_ARCH_SUN8IW6P1) \
+		|| defined(CONFIG_ARCH_SUN8IW8P1) \
+		|| defined(CONFIG_ARCH_SUN8IW7P1) \
+		|| defined(CONFIG_ARCH_SUN8IW9P1)
+	clk_ctl = mci_readl(smc_host , REG_CLKCR);
+	clk_ctl &= ~(0x1U<<31);
+	mci_writel(smc_host , REG_CLKCR , clk_ctl);
+	SMC_DBG(smc_host , "%d,REG_CLKCR %x\n" , __LINE__ , mci_readl(smc_host , REG_CLKCR));
+#endif
+
 	return ret;
 }
 
@@ -528,6 +549,7 @@ s32 sunxi_mci_ntsr_onoff(struct sunxi_mmc_host* smc_host, u32 newmode_en)
 {
 	u32 rval = mci_readl(smc_host, REG_NTSR);
 
+	rval |= (1U<<4); /*txp1, rxp1*/
 	if (newmode_en)
 		rval |= NEWMODE_ENABLE;
 	else
@@ -792,6 +814,8 @@ int sunxi_mci_send_manual_stop(struct sunxi_mmc_host* smc_host, struct mmc_reque
 	if (iflags & SDXC_IntErrBit) {
 		SMC_ERR(smc_host, "sdc %d send stop command failed\n", smc_host->pdev->id);
 		ret = -1;
+	} else{
+		SMC_ERR(smc_host, "************send stop ok\n");
 	}
 
 	if (req->stop)
@@ -959,7 +983,8 @@ out:
 		sunxi_mci_send_manual_stop(smc_host, req);
 		/* reset controller */
 		/*
-		mci_writel(smc_host, REG_GCTRL, mci_readl(smc_host, REG_GCTRL) | SDXC_HWReset);	
+		mci_writel(smc_host, REG_GCTRL,
+		mci_readl(smc_host, REG_GCTRL) | SDXC_HWReset);
 		expire = jiffies + msecs_to_jiffies(1);
 		do {
 			if(!(mci_readl(smc_host,REG_GCTRL)&SDXC_HWReset)){
@@ -970,9 +995,9 @@ out:
 		if (mci_readl(smc_host,REG_GCTRL)&SDXC_HWReset) {
 			SMC_ERR(smc_host, "wait ctl rst timeout %d ms\n", 1);
 			return -1;
-		}	
-		sunxi_mci_update_clk(smc_host);	
-		SMC_MSG(smc_host, "Reset ctl !!\n");		
+		}
+		sunxi_mci_update_clk(smc_host);
+		SMC_MSG(smc_host, "Reset ctl !!\n");
 		*/
 	}
 
@@ -998,7 +1023,6 @@ static void mclk_enable_disable(struct sunxi_mmc_host* smc_host,u32 enable)
 
 	SMC_DBG(smc_host,"mclk 0x%08x 0x%08x\n", (u32)mclk_base, readl(mclk_base));
 }
-
 #endif
 
 /* static s32 sunxi_mci_set_clk(struct sunxi_mmc_host* smc_host, u32 clk);
@@ -2067,7 +2091,10 @@ static irqreturn_t sunxi_mci_irq(int irq, void *dev_id)
 	}
 	if (idma_int & (SDXC_IDMACTransmitInt|SDXC_IDMACReceiveInt))
 		smc_host->dma_done = 1;
-	if (msk_int & (SDXC_AutoCMDDone|SDXC_DataOver|SDXC_CmdDone|SDXC_VolChgDone))
+	if (msk_int & (SDXC_AutoCMDDone\
+					|SDXC_DataOver\
+					|SDXC_CmdDone\
+					|SDXC_VolChgDone))
 		smc_host->trans_done = 1;
 	if ((smc_host->trans_done && (smc_host->wait == SDC_WAIT_AUTOCMD_DONE
 					|| smc_host->wait == SDC_WAIT_DATA_OVER
@@ -2366,6 +2393,9 @@ static void sunxi_mci_request(struct mmc_host *mmc, struct mmc_request *mrq)
 		return;
 	}
 
+	/* update clock for each cmd */
+	sunxi_mci_update_clk(smc_host);
+
 	smc_host->mrq = mrq;
 	if (data) {
 #ifdef  USE_SECURE_WRITE_PROTECT
@@ -2640,9 +2670,6 @@ static int sunxi_mci_execute_tuning(struct mmc_host *mmc, u32 opcode)
 }
 #endif
 
-// don't use these two interface for sdio wifi on sun8iw9. use same interface defined at sunxi-smhc.c
-//#ifndef CONFIG_ARCH_SUN8IW9P1
-#if 1
 /*
  * Here provide a function to scan card, for some SDIO cards that
  * may stay in busy status after writing operations. MMC host does
@@ -2681,7 +2708,55 @@ int sunxi_mci_check_r1_ready(struct mmc_host* mmc, unsigned ms)
 }
 EXPORT_SYMBOL_GPL(sunxi_mci_check_r1_ready);
 
-#endif /* #ifndef CONFIG_ARCH_SUN8IW9P1 */
+#if defined(CONFIG_ARCH_SUN8IW5P1) || defined(CONFIG_ARCH_SUN8IW6P1) \
+		|| defined(CONFIG_ARCH_SUN8IW8P1) \
+		|| defined(CONFIG_ARCH_SUN8IW7P1) \
+		|| defined(CONFIG_ARCH_SUN8IW9P1)
+int sunxi_mci_do_set_phase(struct mmc_host *host, \
+		struct mmc_request *req, \
+		int tx_phase, int rx_phase, \
+		bool send_stop)
+{
+	struct sunxi_mmc_host *smc_host = mmc_priv(host);
+	u32 rval = mci_readl(smc_host, REG_NTSR);
+	int ret = 0;
+
+	if (smc_host->pdev->id != 2) {
+		SMC_MSG(smc_host, "no support ph retry for %x\n", \
+			smc_host->pdev->id);
+		return 0;
+	}
+
+	SMC_MSG(smc_host, "auto ph %x\n", mci_readl(smc_host, REG_AUTO_PH));
+
+	if (send_stop)
+		sunxi_mci_send_manual_stop(smc_host, req);
+	ret = sunxi_mci_check_r1_ready(host, 1000);
+	if (!ret)
+		SMC_ERR(smc_host, "busy over\n");
+
+
+	sunxi_mci_regs_save(smc_host);
+	clk_disable_unprepare(smc_host->mclk);
+	clk_prepare_enable(smc_host->mclk);
+	sunxi_mci_regs_restore(smc_host);
+
+	rval &= ~((3<<4)|(3));
+	rval |= ((rx_phase&3)<<4)|(tx_phase&3);
+	rval &= ~NEWMODE_ENABLE;
+	mci_writel(smc_host, REG_NTSR, rval);
+	rval |= NEWMODE_ENABLE;
+	mci_writel(smc_host, REG_NTSR, rval);
+	SMC_ERR(smc_host, "set phase %x\n",\
+					mci_readl(smc_host, REG_NTSR));
+	ret = sunxi_mci_update_clk(smc_host);
+	if (!ret)
+		SMC_ERR(smc_host, "set phase udate clk ok %x\n",\
+			mci_readl(smc_host, REG_NTSR));
+
+	return 0;
+}
+#endif
 
 static struct mmc_host_ops sunxi_mci_ops = {
 	.request	= sunxi_mci_request,
@@ -2692,6 +2767,12 @@ static struct mmc_host_ops sunxi_mci_ops = {
 	.hw_reset	= sunxi_mci_hw_reset,
 	.start_signal_voltage_switch = sunxi_mci_do_voltage_switch,
 	//.execute_tuning = sunxi_mci_execute_tuning,
+#if defined(CONFIG_ARCH_SUN8IW5P1) || defined(CONFIG_ARCH_SUN8IW6P1) \
+		|| defined(CONFIG_ARCH_SUN8IW8P1) \
+		|| defined(CONFIG_ARCH_SUN8IW7P1) \
+		|| defined(CONFIG_ARCH_SUN8IW9P1)
+	.sunxi_set_phase = sunxi_mci_do_set_phase,
+#endif
 };
 
 #ifdef CONFIG_PROC_FS
@@ -3230,11 +3311,15 @@ void sunxi_mci_regs_save(struct sunxi_mmc_host* smc_host)
 	bak_regs->clkc		= mci_readl(smc_host, REG_CLKCR);
 	bak_regs->timeout	= mci_readl(smc_host, REG_TMOUT);
 	bak_regs->buswid	= mci_readl(smc_host, REG_WIDTH);
+	bak_regs->imask     = mci_readl(smc_host, REG_IMASK);
 	bak_regs->waterlvl	= mci_readl(smc_host, REG_FTRGL);
 	bak_regs->funcsel	= mci_readl(smc_host, REG_FUNS);
 	bak_regs->debugc	= mci_readl(smc_host, REG_DBGC);
 	bak_regs->idmacc	= mci_readl(smc_host, REG_DMAC);
-#if defined(CONFIG_ARCH_SUN8IW7P1)	
+#if defined(CONFIG_ARCH_SUN8IW5P1) || defined(CONFIG_ARCH_SUN8IW6P1) \
+			|| defined(CONFIG_ARCH_SUN8IW8P1) \
+			|| defined(CONFIG_ARCH_SUN8IW7P1) \
+			|| defined(CONFIG_ARCH_SUN8IW9P1)
 	bak_regs->ntsr		= mci_readl(smc_host, REG_NTSR);
 #endif
 }
@@ -3247,12 +3332,16 @@ void sunxi_mci_regs_restore(struct sunxi_mmc_host* smc_host)
 	mci_writel(smc_host, REG_CLKCR, bak_regs->clkc    );
 	mci_writel(smc_host, REG_TMOUT, bak_regs->timeout );
 	mci_writel(smc_host, REG_WIDTH, bak_regs->buswid  );
+	mci_writel(smc_host, REG_IMASK, bak_regs->imask);
 	mci_writel(smc_host, REG_FTRGL, bak_regs->waterlvl);
 	mci_writel(smc_host, REG_FUNS , bak_regs->funcsel );
 	mci_writel(smc_host, REG_DBGC , bak_regs->debugc  );
 	mci_writel(smc_host, REG_DMAC , bak_regs->idmacc  );
-#if defined(CONFIG_ARCH_SUN8IW7P1)		
-	mci_writel(smc_host, REG_NTSR , bak_regs->ntsr  );
+#if defined(CONFIG_ARCH_SUN8IW5P1) || defined(CONFIG_ARCH_SUN8IW6P1) \
+		|| defined(CONFIG_ARCH_SUN8IW8P1) \
+		|| defined(CONFIG_ARCH_SUN8IW7P1) \
+		|| defined(CONFIG_ARCH_SUN8IW9P1)
+	mci_writel(smc_host, REG_NTSR , bak_regs->ntsr);
 #endif
 }
 
@@ -3571,7 +3660,7 @@ static struct sunxi_mmc_platform_data sunxi_mci_pdata[] = {
 #else
 		.mmc_clk_dly[MMC_CLK_25M]  				= {MMC_CLK_25M,					0,5},
 #endif
-		
+
 #if defined CONFIG_ARCH_SUN9IW1
 		.mmc_clk_dly[MMC_CLK_50M]  				= {MMC_CLK_50M,					5,4},
 		.mmc_clk_dly[MMC_CLK_50MDDR]			= {MMC_CLK_50MDDR,			3,4},
@@ -3584,7 +3673,7 @@ static struct sunxi_mmc_platform_data sunxi_mci_pdata[] = {
 		.mmc_clk_dly[MMC_CLK_50MDDR]			= {MMC_CLK_50MDDR,			2,4},
 		.mmc_clk_dly[MMC_CLK_50MDDR_8BIT]	= {MMC_CLK_50MDDR_8BIT,	2,4},
 		.mmc_clk_dly[MMC_CLK_100M]  			= {MMC_CLK_100M,				1,4},
-		.mmc_clk_dly[MMC_CLK_200M]  			= {MMC_CLK_200M,				1,4},	
+		.mmc_clk_dly[MMC_CLK_200M] = {MMC_CLK_200M,	1, 4},
 #else
 		.mmc_clk_dly[MMC_CLK_50M]  				= {MMC_CLK_50M,					3,4},
 		.mmc_clk_dly[MMC_CLK_50MDDR]			= {MMC_CLK_50MDDR,			2,4},
@@ -3636,7 +3725,7 @@ static struct sunxi_mmc_platform_data sunxi_mci_pdata[] = {
 		.mmc_clk_dly[MMC_CLK_50MDDR_8BIT]		= {MMC_CLK_50MDDR_8BIT,			3,4},
 		.mmc_clk_dly[MMC_CLK_100M]  			= {MMC_CLK_100M,				2,3}, //80MHz
 		.mmc_clk_dly[MMC_CLK_200M]  			= {MMC_CLK_200M,				2,4},
-#elif defined CONFIG_ARCH_SUN8IW6P1	
+#elif defined CONFIG_ARCH_SUN8IW6P1
 		//in 1.2GHz pll_periph only [MMC_CLK-50M] is correct
 		.mmc_clk_dly[MMC_CLK_50M]  				= {MMC_CLK_50M,					6,7},
 		.mmc_clk_dly[MMC_CLK_50MDDR]			= {MMC_CLK_50MDDR,				2,4},
